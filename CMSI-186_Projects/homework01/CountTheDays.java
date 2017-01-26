@@ -14,6 +14,7 @@
  *            Rev      Date     Modified by:    Reason for change/modification
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-01-25  Serena Zafiris  Initial writing and release
+ *  @version 1.0.1  2017-01-26  Serena Zafiris  Called class using different method. Fixed valid date checker
  */
 
 public class CountTheDays {
@@ -24,9 +25,18 @@ public class CountTheDays {
     long month2 = Long.parseLong( args[3] );
     long day2 = Long.parseLong( args[4] );
     long year2 = Long.parseLong( args[5] );
-    CalendarStuff.isValidDate( month1, day1, year1 );
-    CalendarStuff.isValidDate( month2, day2, year2 );
-    long dayCount = CalendarStuff.daysBetween( month1, day1, year1, month2, day2, year2 );
+    CalendarStuff cs = new CalendarStuff();
+    cs.isValidDate( month1, day1, year1 );
+    cs.isValidDate( month2, day2, year2 );
+    if( !cs.isValidDate( month1, day1, year1 ) ) {
+      System.out.println( "The first date is bogus" );
+      System.exit(1);
+    }
+    if( !cs.isValidDate( month2, day2, year2 ) ) {
+      System.out.println( "The second date is bogus" );
+      System.exit(1);
+    }
+    long dayCount = cs.daysBetween( month1, day1, year1, month2, day2, year2 );
     System.out.println( "Days between " + dayCount );
   }
 }
