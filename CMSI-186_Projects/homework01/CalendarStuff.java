@@ -25,6 +25,7 @@
  *  @version 1.0.3  2017-01-24  Serena Zafiris  Added isValidDate and daysInMonth and compareDate
  *  @version 1.0.4  2017-01-25  Serena Zafiris  Added daysBetween
  *  @version 1.0.5  2017-01-26  Serena Zafiris  Fixed formatting errors
+ *  @version 1.0.5  2017-01-26  Serena Zafiris  Fixed formatting errors adn isValidDate error
  */
 public class CalendarStuff {
 
@@ -204,8 +205,6 @@ public class CalendarStuff {
    */
    public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 ) {
       long dayCount = 0;
-      isValidDate( month1, day1, year1 );
-      isValidDate( month2, day2, year2 );
         while ( compareDate( month1, day1, year1, month2, day2, year2 ) == 1 ) {
           dayCount = dayCount + 1;
           day1 = day1 - 1;
@@ -213,7 +212,7 @@ public class CalendarStuff {
             month1 = month1 - 1;
             day1 = daysInMonth( month1, year1 );
           }
-          if ( month1 < 1 ) {
+          if( month1 < 1 ) {
             year1 = year1 - 1;
             month1 = 12;
             day1 = daysInMonth( month1, year1 );
