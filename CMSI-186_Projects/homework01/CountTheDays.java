@@ -15,10 +15,15 @@
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-01-25  Serena Zafiris  Initial writing and release
  *  @version 1.0.1  2017-01-26  Serena Zafiris  Called class using different method. Fixed valid date checker
+ *  @version 1.0.2  2017-01-26  Added error message for invalid length
  */
 
 public class CountTheDays {
   public static void main( String args[] ) {
+    if( args.length != 6 ) {
+      System.out.println( "You must provide two dates each written in month, day, year format" );
+      System.exit(1);
+    }
     long month1 = Long.parseLong( args[0] );
     long day1 = Long.parseLong( args[1] );
     long year1 = Long.parseLong( args[2] );
