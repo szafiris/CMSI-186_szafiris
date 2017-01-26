@@ -3,8 +3,8 @@
  *  Purpose       :  Provides a class with supporting methods for CountTheDays.java program
  *  Author        :  B.J. Johnson (prototype)
  *  Date          :  2017-01-02 (prototype)
- *  Author        :  <your name here>
- *  Date          :  <date of writing here>
+ *  Author        :  Serena Zafiris
+ *  Date          :  <2017-01-19>
  *  Description   :  This file provides the supporting methods for the CountTheDays program which will
  *                   calculate the number of days between two dates.  It shows the use of modularization
  *                   when writing Java code, and how the Java compiler can "figure things out" on its
@@ -17,11 +17,15 @@
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
  *  ----------------
- *            Rev      Date     Modified by:  Reason for change/modification
- *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2017-01-02  B.J. Johnson  Initial writing and release
+ *            Rev      Date     Modified by:    Reason for change/modification
+ *           -----  ----------  ------------    -----------------------------------------------------------
+ *  @version 1.0.0  2017-01-02  B.J. Johnson    Initial writing and release
+ *  @version 1.0.1  2017-01-19  Serena Zafiris  Adding name
+ *  @version 1.0.2  2017-01-19  Serena Zafiris  Adding isLeapYear and dateEquals
+ *  @version 1.0.3  2017-01-24  Serena Zafiris  Added isValidDate and daysInMonth and compareDate
+ *  @version 1.0.4  2017-01-25  Serena Zafiris  Added daysBetween
  */
-public class CalendarStuffEmpty {
+public class CalendarStuff {
 
   /**
    * A listing of the days of the week, assigning numbers; Note that the week arbitrarily starts on Sunday
@@ -59,7 +63,7 @@ public class CalendarStuffEmpty {
   /**
    * The constructor for the class
    */
-   public CalendarStuffEmpty() {
+   public CalendarStuff() {
       System.out.println( "Constructor called..." );
    }
 
@@ -70,7 +74,13 @@ public class CalendarStuffEmpty {
    * @return         boolean which is true if the parameter is a leap year
    */
    public static boolean isLeapYear( long year ) {
+     if( year % 4 == 0 && year % 100 != 0 ) {
       return true;
+     } else if( year % 100 == 0 && year % 400 == 0 ) {
+         return true;
+     } else {
+         return false;
+     }
    }
 
   /**
@@ -82,7 +92,11 @@ public class CalendarStuffEmpty {
    *         be decremented to make the appropriate index value
    */
    public static long daysInMonth( long month, long year ) {
-      return 33;
+     if( month == 2 && isLeapYear(year)) {
+        return 29;
+      } else {
+        return days[(int)month - 1];
+     }
    }
 
   /**
@@ -96,7 +110,11 @@ public class CalendarStuffEmpty {
    * @return          boolean which is true if the two dates are exactly the same
    */
    public static boolean dateEquals( long month1, long day1, long year1, long month2, long day2, long year2 ) {
+     if( month1 == month2 && day1 == day2 && year1 == year2 ) {
       return true;
+    } else {
+      return false;
+    }
    }
 
   /**
@@ -110,7 +128,26 @@ public class CalendarStuffEmpty {
    * @return          int    -1/0/+1 if first date is less than/equal to/greater than second
    */
    public static int compareDate( long month1, long day1, long year1, long month2, long day2, long year2 ) {
-      return 0;
+     if( year1 > year2 ) {
+       return 1;
+     }
+     else if( year1 < year2 ) {
+       return -1;
+     } else {
+       if( month1 > month2) {
+         return 1;
+       } else if( month1 < month2 ) {
+         return -1;
+       } else {
+         if( day1 > day2 ) {
+           return 1;
+         } else if( day1 < day2 ) {
+           return -1;
+         } else {
+           return 0;
+         }
+       }
+     }
    }
 
   /**
@@ -123,9 +160,15 @@ public class CalendarStuffEmpty {
    *         be decremented to make the appropriate index value
    */
    public static boolean isValidDate( long month, long day, long year ) {
-      return true;
+     if ( year > 0 ) {
+       if( month >= 1 && month <= 12 ) {
+         if( day >= 1 && day <= daysInMonth( month, year ) ) {
+           return true;
+         }
+       }
+     }
+    return false;
    }
-
   /**
    * A method to return a string version of the month name
    * @param    month long   containing month number, starting with "1" for "January"
@@ -160,7 +203,34 @@ public class CalendarStuffEmpty {
    */
    public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 ) {
       long dayCount = 0;
+      isValidDate( month1, day1, year1 );
+      isValidDate( month2, day2, year2 );
+        while ( compareDate( month1, day1, year1, month2, day2, year2 ) == 1 ) {
+          dayCount = dayCount + 1;
+          day1 = day1 - 1;
+          if( day1 < 1 ) {
+            month1 = month1 - 1;
+            day1 = daysInMonth( month1, year1 );
+          }
+          if ( month1 < 1 ) {
+            year1 = year1 - 1;
+            month1 = 12;
+            day1 = daysInMonth( month1, year1 );
+          }
+        }
+        while ( compareDate( month1, day1, year1, month2, day2, year2 ) == -1 ) {
+          dayCount = dayCount + 1;
+          day1 = day1 + 1;
+          if( day1 > daysInMonth( month1, year1 ) ) {
+            month1 = month1 + 1;
+            day1 = 1;
+          }
+          if ( month1 > 12 ) {
+            year1 = year1 + 1;
+            month1 = 1;
+            day1 = 1;
+          }
+        }
       return dayCount;
    }
-
 }
