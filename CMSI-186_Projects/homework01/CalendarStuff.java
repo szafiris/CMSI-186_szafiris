@@ -24,6 +24,7 @@
  *  @version 1.0.2  2017-01-19  Serena Zafiris  Adding isLeapYear and dateEquals
  *  @version 1.0.3  2017-01-24  Serena Zafiris  Added isValidDate and daysInMonth and compareDate
  *  @version 1.0.4  2017-01-25  Serena Zafiris  Added daysBetween
+ *  @version 1.0.5  2017-01-26  Serena Zafiris  Fixed formatting errors
  */
 public class CalendarStuff {
 
@@ -92,10 +93,10 @@ public class CalendarStuff {
    *         be decremented to make the appropriate index value
    */
    public static long daysInMonth( long month, long year ) {
-     if( month == 2 && isLeapYear(year)) {
+     if( month == 2 && isLeapYear( year ) ) {
         return 29;
       } else {
-        return days[(int)month - 1];
+        return days[( int )month - 1];
      }
    }
 
