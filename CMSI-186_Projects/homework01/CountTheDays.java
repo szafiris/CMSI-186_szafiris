@@ -1,6 +1,6 @@
 /**
  *  File name     :  CountTheDays.java
- *  Purpose       :  fFinds the days between two dates using methods from CalendarStuff.java
+ *  Purpose       :  Finds the days between two dates using methods from CalendarStuff.java
  *  Author        :  Serena Zafiris
  *  Date          :  2017-01-25
  *  Description   :  This file runs the CountTheDays program which will
