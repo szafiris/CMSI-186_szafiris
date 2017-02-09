@@ -24,6 +24,7 @@
  *  @version 1.2.0  2017-02-07  Serena Zafiris  Added rest of methods
  *  @version 1.2.1  2017-02-07  Serena Zafiris  Added catch for making an empty string a palindrome
  *  @version 1.2.2  2017-02-07  Serena Zafiris  Fixed spacing error
+ *  @version 1.2.3  2017-02-07  Serena Zafiris  Fixed isPalindrome checker did not work
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Set;
 import java.util.LinkedHashSet;
@@ -60,19 +61,19 @@ public class StringStuff {
    */
    public static boolean isPalindrome( String s ) {
      s = s.toUpperCase();
+     s = s.replaceAll(" ", "");
      String palindrome = reverse(s);
      if( s == "" ) {
        return true;
      }
      for( int i = 0; i < s.length(); i++ ) {
-       if ( s.charAt(i) == palindrome.charAt(i) ) {
-         return true;
-       } else {
+       if ( s.charAt(i) != palindrome.charAt(i) ) {
          return false;
        }
      }
-     return false;
+     return true;
    }
+
 
   /**
    * Method to return the characters in a string that correspond to the &quot;EVEN&quot; index
