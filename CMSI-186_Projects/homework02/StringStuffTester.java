@@ -22,6 +22,7 @@
  *  @version 1.1.0  2017-02-02  Serena Zafiris  Added tests for containsVowel
  *  @version 1.2.0  2017-02-07  Serena Zafiris  Added tests for rest of methods
  *  @version 1.2.1  2017-02-08  Serena Zafiris  Added tests to containsVowel, isPalindrome & reverse
+ *  @version 1.2.2  2017-02-08  Serena Zafiris  Added tests to containsVowel, evensOnly & oddsOnly
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class StringStuffTester {
@@ -33,10 +34,10 @@ public class StringStuffTester {
    */
    public static void main ( String [] args ) {
 
-      test_containsVowel();      // 10
+      test_containsVowel();      // 15
       test_isPalindrome();       // 10
-      test_evensOnly();          // 5
-      test_oddsOnly();           // 5
+      test_evensOnly();          // 6
+      test_oddsOnly();           // 6
       test_evensOnlyNoDupes();   // 5
       test_oddsOnlyNoDupes();    // 5
       test_reverse();            // 7
@@ -46,9 +47,24 @@ public class StringStuffTester {
    * test method to test out the operation of the containsVowel method
    */
    public static void test_containsVowel() {
-     System.out.println("TEN TESTS FOR CONTAINSVOWEL");
+     System.out.println("FIFTEEN TESTS FOR CONTAINSVOWEL");
      System.out.print( "   Test for string AAA " );
      try { System.out.println( StringStuff.containsVowel( "AAA" ) ? "true" : "false" ); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string E " );
+     try { System.out.println( StringStuff.containsVowel( "E" ) ? "true" : "false" ); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string I " );
+     try { System.out.println( StringStuff.containsVowel( "I" ) ? "true" : "false" ); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string O " );
+     try { System.out.println( StringStuff.containsVowel( "O" ) ? "true" : "false" ); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string U " );
+     try { System.out.println( StringStuff.containsVowel( "U" ) ? "true" : "false" ); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string Y " );
+     try { System.out.println( StringStuff.containsVowel( "Y" ) ? "true" : "false" ); }
      catch( Exception e ) { System.out.println ( false ); }
      System.out.print( "   Test for string BBB " );
      try { System.out.println( StringStuff.containsVowel( "BBB" ) ? "true" : "false" ); }
@@ -120,9 +136,12 @@ public class StringStuffTester {
    * test method to test out the operation of the evensOnly method
    */
    public static void test_evensOnly() {
-     System.out.println("FIVE TESTS FOR EVENSONLY");
+     System.out.println("SIX TESTS FOR EVENSONLY");
      System.out.print( "   Test for string AaA " );
      try { System.out.println( StringStuff.evensOnly( "AaA" ).equals("") ? "true" : "false"); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string BDFHJLNPRTVXZ " );
+     try { System.out.println( StringStuff.evensOnly( "BDFHJLNPRTVXZ" ).equals("BDFHJLNPRTVXZ") ? "true" : "false"); }
      catch( Exception e ) { System.out.println ( false ); }
      System.out.print( "   Test for string BYB " );
      try { System.out.println( StringStuff.evensOnly( "BYB" ).equals("BB") ? "true" : "false" ); }
@@ -142,9 +161,12 @@ public class StringStuffTester {
    * test method to test out the operation of the oddsOnly method
    */
    public static void test_oddsOnly() {
-     System.out.println("FIVE TESTS FOR ODDSONLY");
+     System.out.println("SIX TESTS FOR ODDSONLY");
      System.out.print( "   Test for string AaA1 " );
      try { System.out.println( StringStuff.oddsOnly( "AaA1" ).equals("AAA") ? "true" : "false"); }
+     catch( Exception e ) { System.out.println ( false ); }
+     System.out.print( "   Test for string ACEGIKMOQSUWY " );
+     try { System.out.println( StringStuff.oddsOnly( "ACEGIKMOQSUWY" ).equals("ACEGIKMOQSUWY") ? "true" : "false"); }
      catch( Exception e ) { System.out.println ( false ); }
      System.out.print( "   Test for string BYB " );
      try { System.out.println( StringStuff.oddsOnly( "BYB" ).equals("Y") ? "true" : "false" ); }
