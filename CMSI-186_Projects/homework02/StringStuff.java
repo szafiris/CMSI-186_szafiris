@@ -23,6 +23,7 @@
  *  @version 1.1.2  2017-02-02  Serena Zafiris  Added containsVowel
  *  @version 1.2.0  2017-02-07  Serena Zafiris  Added rest of methods
  *  @version 1.2.1  2017-02-07  Serena Zafiris  Added catch for making an empty string a palindrome
+ *  @version 1.2.2  2017-02-07  Serena Zafiris  Fixed spacing error
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.util.Set;
 import java.util.LinkedHashSet;
@@ -60,7 +61,7 @@ public class StringStuff {
    public static boolean isPalindrome( String s ) {
      s = s.toUpperCase();
      String palindrome = reverse(s);
-     if(s == "") {
+     if( s == "" ) {
        return true;
      }
      for( int i = 0; i < s.length(); i++ ) {
