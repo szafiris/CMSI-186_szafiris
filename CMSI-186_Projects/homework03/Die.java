@@ -35,6 +35,7 @@
  *  @version 1.0.1  2017-02-14  Serena Zafiris  Worked on Die and roll
  *  @version 1.1.0  2017-02-17  B.J. Johnson    Filled in method code
  *  @version 1.1.2  2017-02-20  Serena Zafiris  Added Die, roll, getValue and tooString
+ *  @version 1.1.3  2017-02-23  Serena Zafiris  Finished tester
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 public class Die {
 
@@ -100,6 +101,9 @@ public class Die {
       return "[" + this.dieRoll + "]";
    }
 
+   /**
+    * @return Public instance method that returns a String representation of just the number of the Die
+    */
   public String toNumberString() {
     return Integer.toString( this.dieRoll );
   }
@@ -121,16 +125,19 @@ public class Die {
    */
   public static void main( String[] args ) {
       System.out.println( "Hello world from the Die class..." );
+      System.out.println();
       System.out.println( "Creating a two sided die" );
       try{
         Die d1 = new Die(2);
       }
       catch( IllegalArgumentException IAE ) {
-        System.out.println("Cant make a die with two sides");
+        System.out.println( "Cannot make a die with two sides" );
       }
-      System.out.println( "Tests for a 10 sided die" );
-      Die d = new Die(10);
-      System.out.println( "Rolling the 10 sided die 8 times" );
+      System.out.println();
+      System.out.println( "Making an 8 sided die" );
+      Die d = new Die(8);
+      System.out.println();
+      System.out.println( "Rolling the 8 sided die 12 times" );
       System.out.println( d.roll() );
       System.out.println( d.roll() );
       System.out.println( d.roll() );
@@ -139,14 +146,30 @@ public class Die {
       System.out.println( d.roll() );
       System.out.println( d.roll() );
       System.out.println( d.roll() );
+      System.out.println( d.roll() );
+      System.out.println( d.roll() );
+      System.out.println( d.roll() );
+      System.out.println( d.roll() );
+      System.out.println();
       System.out.println( "Testing getValue" );
       System.out.println( d.getValue() );
+      System.out.println();
       System.out.println( "Testing toString (instance)" );
       System.out.println( d.toString() );
+      System.out.println();
       System.out.println( "Testing toString (class)" );
       System.out.println( Die.toString(d) );
+      System.out.println();
+      System.out.println( "Testing toNumberString" );
+      System.out.println( d.toNumberString() );
+      System.out.println();
+      System.out.println( "Testing setValue (setting to 4)" );
+      d.setValue(4);
+      System.out.println( d.toString() ) ;
+      System.out.println();
       System.out.println( "Tests for switching to a 5 sided die" );
       d.setSides(5);
+      System.out.println();
       System.out.println( "Rolling the 5 sided die 8 times" );
       System.out.println( d.roll() );
       System.out.println( d.roll() );
@@ -156,18 +179,29 @@ public class Die {
       System.out.println( d.roll() );
       System.out.println( d.roll() );
       System.out.println( d.roll() );
+      System.out.println();
       System.out.println( "Testing getValue" );
       System.out.println( d.getValue() );
+      System.out.println();
       System.out.println( "Testing toString (instance)" );
       System.out.println( d.toString() );
+      System.out.println();
       System.out.println( "Testing toString (class)" );
       System.out.println( Die.toString(d) );
+      System.out.println();
+      System.out.println( "Testing toNumberString" );
+      System.out.println( d.toNumberString() );
+      System.out.println();
+      System.out.println( "Testing setValue (setting to 3)" );
+      d.setValue(3);
+      System.out.println( d.toString() ) ;
+      System.out.println();
       System.out.println( "Switching to a die with 3 sides" );
       try {
         d.setSides(3);
       }
-      catch( IllegalArgumentException IAE) {
-        System.out.println("Cant make a die with three sides");
+      catch( IllegalArgumentException IAE ) {
+        System.out.println( "Cannot make a die with three sides" );
       }
    }
 }
