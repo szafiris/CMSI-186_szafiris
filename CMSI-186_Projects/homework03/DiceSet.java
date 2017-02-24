@@ -30,6 +30,7 @@
  *  @version 1.0.1  2017-02-21  Serena Zafiris  Added roll, toString, sum, rollIndividual & getIndividual
  *  @version 1.0.2  2017-02-21  Serena Zafiris  Fixed methods and added toString
  *  @version 1.0.2  2017-02-23  Serena Zafiris  Fixed isIdentical and added tester
+ *  @version 1.0.3  2017-02-23  Serena Zafiris  Finished tester
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 public class DiceSet {
 
@@ -51,7 +52,7 @@ public class DiceSet {
   public DiceSet( int count, int sides ) {
     this.count = count;
     if( count < 1 ) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException( "Out of range" );
     }
     ds = new Die[ count ];
     for( int i = 0; i < count; i++ ) {
@@ -64,7 +65,7 @@ public class DiceSet {
    */
   public int sum() {
     int sum = 0;
-    for(int i = 0; i < this.count; i++){
+    for( int i = 0; i < this.count; i++ ) {
       sum = sum + ds[i].getValue();
     }
     return sum;
@@ -89,7 +90,7 @@ public class DiceSet {
    */
    public int rollIndividual( int dieIndex ) {
      if( dieIndex > this.count ) {
-       throw new IllegalArgumentException("That die does not exist in your set");
+       throw new IllegalArgumentException( "Out of range" );
      }
      dieIndex = dieIndex - 1;
      return ds[dieIndex].roll();
@@ -100,20 +101,20 @@ public class DiceSet {
    * @param  dieIndex int of which die to roll
    * @trhows IllegalArgumentException if the index is out of range
    */
-   public int getIndividual( int dieIndex ) {
-     if( dieIndex > this.count ) {
-       throw new IllegalArgumentException("That die does not exist in your set");
-     }
-     dieIndex = dieIndex - 1;
-     return ds[dieIndex].getValue();
-   }
+  public int getIndividual( int dieIndex ) {
+    if( dieIndex > this.count ) {
+      throw new IllegalArgumentException( "Out of range" );
+    }
+    dieIndex = dieIndex - 1;
+    return ds[dieIndex].getValue();
+  }
 
   /**
    * @return Public Instance method that returns a String representation of the DiceSet instance
    */
   public String toString() {
     String result = "";
-    for(int i = 0; i < this.count; i++) {
+    for( int i = 0; i < this.count; i++ ) {
       result = result + ds[i].toString();
     }
     return result;
@@ -122,19 +123,22 @@ public class DiceSet {
   /**
    * @return Class-wide version of the preceding instance method
    */
-   public static String toString( DiceSet ds ) {
-     String result = "";
-     result = ds.toString();
-     return result;
-   }
+  public static String toString( DiceSet ds ) {
+    String result = "";
+    result = ds.toString();
+    return result;
+  }
 
-   public String toNumberString() {
-     String result = "";
-     for(int i = 0; i < this.count; i++) {
-       result = result + ds[i].toNumberString();
-     }
-     return result;
-   }
+   /**
+    * @return Public instance method that returns a String representation of just the numbers in the DiceSet
+    */
+  public String toNumberString() {
+    String result = "";
+    for( int i = 0; i < this.count; i++ ) {
+      result = result + ds[i].toNumberString();
+    }
+    return result;
+  }
 
   /**
    * @return  tru iff this set is identical to the set passed as an argument
@@ -146,7 +150,6 @@ public class DiceSet {
     if( this.sides == ds2.sides && this.count == ds2.count ) {
       for(int i = 0; i < max; i++) {
         for(int j = 0; j < this.count; j++) {
-          System.out.println("i = " + i + " j = " + j);
           if( ds1String.charAt(i) == ds2String.charAt(j) ) {
             ds2String.deleteCharAt(j);
             this.count--;
@@ -157,49 +160,83 @@ public class DiceSet {
     }
     if( ds2String.length() == 0 ) {
       return true;
-    } else {
+    }
     return false;
-  }
   }
   /**
    * A little test main to check things out
    */
   public static void main( String[] args ) {
     System.out.println( "Hello. Welcome to the DiceSet class..." );
+    System.out.println();
+    System.out.println( "Creating a DiceSet with an illegal count" );
+    try{
+      DiceSet ds = new DiceSet(0, 6);
+    }
+    catch ( IllegalArgumentException IAE ) {
+      System.out.println( "You must have at least one die" );
+    }
+    System.out.println();
+    System.out.println( "Creating a DiceSet with an illegal side number" );
+    try{
+      DiceSet ds = new DiceSet(4, 2);
+    }
+    catch ( IllegalArgumentException IAE ) {
+      System.out.println( "Your die must have at least 4 sides" );
+    }
+    System.out.println();
     System.out.println( "Creating the DiceSet" );
     DiceSet ds = new DiceSet(5, 6);
     System.out.println( ds.toString() );
+    System.out.println();
     System.out.println( "Test for roll" );
     ds.roll();
     System.out.println( ds.toString() );
+    System.out.println();
     System.out.println( "Test for sum" );
     System.out.println( ds.sum() );
+    System.out.println();
     System.out.println( "Test for getIndividual: Getting the third die value" );
     try {
       System.out.println( ds.getIndividual(3) );
     }
-    catch( IllegalArgumentException IAE) {
+    catch( IllegalArgumentException IAE ) {
       System.out.println( "Die out of range" );
     }
+    System.out.println();
     System.out.println( "Test for getIndividual with an out of range parameter" );
     try {
       ds.getIndividual(7);
     }
-    catch( IllegalArgumentException IAE) {
+    catch( IllegalArgumentException IAE ) {
       System.out.println( "Die out of range" );
     }
+    System.out.println();
     System.out.println( "Test for toString (instance)" );
     System.out.println( ds.toString() );
+    System.out.println();
     System.out.println( "Test for String (class)" );
     System.out.println( DiceSet.toString(ds) );
-    System.out.println( ds.sum() );
+    System.out.println();
+    System.out.println( "Test for toNumberString" );
+    System.out.println( ds.toNumberString() );
+    System.out.println();
+    System.out.println( "Test for rollIndividual (rolling the third die value)" );
     ds.rollIndividual(3);
     System.out.println( DiceSet.toString(ds) );
-    System.out.println( ds.getIndividual(4) );
-    System.out.println( "Test for isIdentical" );
+    System.out.println();
+    System.out.println( "Test for rollIndividual (rolling an out of range value)" );
+    try {
+      ds.rollIndividual(10);
+    }
+    catch(IllegalArgumentException IAE) {
+      System.out.println( "The die must be in range" );
+    }
+    System.out.println( DiceSet.toString(ds) );
+    System.out.println();
+    System.out.println( "Test for isIdentical with two sets with the same numbers" );
     DiceSet ds1 = new DiceSet( 4, 6 );
     DiceSet ds2 = new DiceSet( 4, 6 );
-    System.out.println( "Using setValue to create DiceSets" );
     ds1.ds[0].setValue(2);
     ds1.ds[1].setValue(3);
     ds1.ds[2].setValue(7);
@@ -208,8 +245,9 @@ public class DiceSet {
     ds2.ds[1].setValue(2);
     ds2.ds[2].setValue(7);
     ds2.ds[2].setValue(2);
-    System.out.println( ds1.isIdentical(ds2) + " Correct" );
-    System.out.println( "Second Test for isIdentical" );
+    System.out.println( ds1.isIdentical(ds2) + " = true, Correct" );
+    System.out.println();
+    System.out.println( "Second Test for isIdentical where the sets have different numbers" );
     DiceSet ds3 = new DiceSet( 3, 6 );
     DiceSet ds4 = new DiceSet( 3, 6 );
     ds3.ds[0].setValue(2);
@@ -218,7 +256,7 @@ public class DiceSet {
     ds4.ds[0].setValue(3);
     ds4.ds[1].setValue(2);
     ds4.ds[2].setValue(7);
-    System.out.println( ds3.isIdentical(ds4) + " Correct" );
+    System.out.println( ds3.isIdentical(ds4) + " = false, Correct" );
   }
 
 }
