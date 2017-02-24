@@ -23,6 +23,7 @@
  *  @version 1.0.0  2017-02-21  Serena Zafiris    Initial writing
  *  @version 1.0.1  2017-02-22  Serena Zafiris    Fixed methods and character errors
  *  @version 1.0.2  2017-02-23  Serena Zafiris    Displayed score properly
+ *  @version 1.0.3  2017-02-23  Serena Zafiris    Fixed input errors
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /** must input sides and count when calling program
  *  example: java Highroll count sides
@@ -36,18 +37,18 @@ public class HighRoll {
     int sides = Integer.parseInt( args[1] );
     int highScore = 0;
     DiceSet ds = new DiceSet(count, sides);
-    System.out.println( "\n   Welcome to the HighRoll Game\n" + "1. Roll all the dice\n" +
-    "2. Roll a single die (command position)\n" + "3. Calculate the score for this set\n" + "4. Save score to highscore\n" +
-    "5. Display the highscore\n" );
-    System.out.println( "     Press the 'q' key to quit the program." );
     BufferedReader input = new BufferedReader( new InputStreamReader( System.in ) );
       while( true ) {
+        System.out.println( "\n   Welcome to the HighRoll Game\n" + "1. Roll all the dice\n" +
+        "2. Roll a single die (command position)\n" + "3. Calculate the score for this set\n" + "4. Save score to highscore\n" +
+        "5. Display the highscore\n" );
+        System.out.println( "     Press the 'q' key to quit the program." );
         System.out.print( ">>" );
         String inputLine = null;
         try {
           inputLine = input.readLine();
-          if( 0 == inputLine.length() ) {
-             System.out.println( "enter some text!:" );;
+          while( 0 == inputLine.length() ) {
+             System.out.println( "Please enter some text!" );;
              System.out.print( ">>" );
              inputLine = input.readLine();
           }
