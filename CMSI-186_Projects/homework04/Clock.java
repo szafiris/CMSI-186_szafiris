@@ -111,7 +111,7 @@ public class Clock {
    *  @return double-precision value of the hour hand location
    */
   public double getHourHand() {
-    hourAngle = hourAngle + ( HOUR_HAND_DEGREES_PER_SECOND * totalSecs );
+    hourAngle = ( HOUR_HAND_DEGREES_PER_SECOND * totalSecs );
     return hourAngle;
   }
 
@@ -120,7 +120,7 @@ public class Clock {
    *  @return double-precision value of the minute hand location
    */
   public double getMinuteHand() {
-    minAngle = ( minAngle + ( MINUTE_HAND_DEGREES_PER_SECOND * totalSecs ) ) % 360;
+    minAngle = (MINUTE_HAND_DEGREES_PER_SECOND * totalSecs ) % 360;
     return minAngle;
   }
 
