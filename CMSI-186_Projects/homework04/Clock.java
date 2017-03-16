@@ -134,12 +134,18 @@ public class Clock {
     }
     if( minAngle > hourAngle && minAngle > 180 ) {
       angle = ( 360 - minAngle ) + hourAngle;
+      if( angle > 180 ) {
+        angle = 360 - angle;
+      }
     }
     if( hourAngle > minAngle && hourAngle <= 180 ) {
       angle = hourAngle - minAngle;
     }
     if( hourAngle > minAngle && hourAngle > 180 ) {
       angle = ( 360 - hourAngle ) + minAngle;
+      if( angle > 180 ) {
+        angle = 360 - angle;
+      }
     }
     return angle;
   }
