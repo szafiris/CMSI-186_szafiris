@@ -13,6 +13,7 @@
  *            Rev      Date     Modified by:    Reason for change/modification
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-03-14  Serena Zafiris  Initial writing
+ *  @version 1.0.1  2017-03-14  Serena Zafiris  Finished ClockSolver
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class ClockSolver {
@@ -71,8 +72,7 @@ public class ClockSolver {
     while( clock.getTotalSecs() <= 43200 ) {
       clock.getHourHand();
       clock.getMinuteHand();
-      System.out.println(clock.getHandAngle());
-      if( Math.abs( clock.getHandAngle() - cse.findAngle ) <= cse.EPSILON_VALUE ) {
+      if( Math.abs( clock.getHandAngle() - cse.findAngle ) <= cse.EPSILON_VALUE || Math.abs( ( 360 - clock.getHandAngle() ) - cse.findAngle ) <= cse.EPSILON_VALUE ) {
         System.out.println( clock.toString() );
       }
       clock.tick();
