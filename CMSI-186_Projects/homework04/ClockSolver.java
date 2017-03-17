@@ -14,25 +14,28 @@
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-03-14  Serena Zafiris  Initial writing
  *  @version 1.0.1  2017-03-14  Serena Zafiris  Finished ClockSolver
+ *  @version 1.0.2  2017-03-16  Serena Zafiris  User-proofed ClockSolver
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class ClockSolver {
   /**
    *  Class field definintions go here
    */
-   private final double MAX_TIME_SLICE_IN_SECONDS  = 1800.00;
-   private final double DEFAULT_TIME_SLICE_SECONDS = 60.0;
-   private final double EPSILON_VALUE = 2;      // small value for double-precision comparisons
+  private final double MAX_TIME_SLICE_IN_SECONDS  = 1800.00;
+  private final double DEFAULT_TIME_SLICE_SECONDS = 60.0;
+  private final double EPSILON_VALUE = 2;      // small value for double-precision comparisons
 
-   private double findAngle;
+  private double findAngle;
+  private double input;
+
 
   /**
    *  Constructor
    *  This just calls the superclass constructor, which is "Object"
    */
-   public ClockSolver() {
-      super();
-   }
+  public ClockSolver() {
+    super();
+  }
 
   /**
    *  Method to handle all the input arguments from the command line
@@ -44,12 +47,23 @@ public class ClockSolver {
   // args[1] if present will specify a time slice value; if not present, defaults to 60 seconds
   // you may want to consider using args[2] for an "angle window"
 
-  System.out.println( "\n   Hello world, from the ClockSolver program!!\n\n" ) ;
+  System.out.println( "\nHello world, from the ClockSolver program!!\n\n" ) ;
   if( 0 == args.length ) {
     System.out.println( "   Sorry you must enter at least one argument\n" +
                         "   Usage: java ClockSolver <angle> [timeSlice]\n" +
                         "   Please try again..........." );
     System.exit( 1 );
+  }
+  Clock clock = new Clock();
+  try { clock.validateAngleArg( args[0] ); }
+  catch( NumberFormatException nfe ) { System.out.println ( "Please enter a number" ); }
+  if( args.length == 1 ) {
+    System.out.println( "No time slice specified. Set to a default of 60 seconds" );
+    input = clock.validateTimeSliceArg( "60" );
+  } else {
+    try { clock.validateTimeSliceArg( args[1] ); }
+    catch( NumberFormatException nfe ) { System.out.println ( "Please enter a number" ); }
+    input = clock.validateTimeSliceArg( args[1] );
   }
 }
 
@@ -67,15 +81,16 @@ public class ClockSolver {
     ClockSolver cse = new ClockSolver();
     Clock clock = new Clock();
     cse.handleInitialArguments( args );
-    cse.findAngle = clock.validateAngleArg( args[0] );
-    clock.validateTimeSliceArg( args[1] );
+    cse.findAngle = Double.parseDouble( args[0] );
+    clock.setInterval( cse.input  ) ;
+    System.out.println( "Your times for your given angle of " + cse.findAngle + " degree(s) are: " );
     while( clock.getTotalSecs() <= 43200 ) {
+      clock.tick();
       clock.getHourHand();
       clock.getMinuteHand();
       if( Math.abs( clock.getHandAngle() - cse.findAngle ) <= cse.EPSILON_VALUE || Math.abs( ( 360 - clock.getHandAngle() ) - cse.findAngle ) <= cse.EPSILON_VALUE ) {
         System.out.println( clock.toString() );
       }
-      clock.tick();
     }
     System.exit( 0 );
   }
