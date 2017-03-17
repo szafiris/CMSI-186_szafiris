@@ -19,6 +19,8 @@
  *  @version 1.0.4  2017-03-15  Serena Zafiris  Finished methods and tester
  */
 
+import java.text.DecimalFormat;
+
 public class Clock {
   /**
    *  Class field definintions go here
@@ -74,6 +76,10 @@ public class Clock {
   public double getTotalSecs() {
     return totalSecs;
   }
+
+  public void setInterval( double value ) {
+    interval = value;
+  }
   /**
    *  Method to validate the angle argument
    *  @param   argValue  String from the main programs args[0] input
@@ -100,7 +106,7 @@ public class Clock {
    *  note: remember that the time slice, if it is small will cause the simulation
    *         to take a VERY LONG TIME to complete!
    */
-  public double validateTimeSliceArg( String argValue ) {
+  public double validateTimeSliceArg( String argValue ) throws NumberFormatException {
     interval = Double.parseDouble( argValue );
     if( interval > 1800 ) {
       interval = 1800;
@@ -111,10 +117,6 @@ public class Clock {
       interval = DEFAULT_TIME_SLICE_IN_SECONDS;
       System.out.println( "Time slice out of range, set to default of 60 secs");
       return interval;
-    }
-    if( argValue.length() == 0 ) {
-      interval = DEFAULT_TIME_SLICE_IN_SECONDS;
-      System.out.println( "No time slice specified, time slice set to default of 60 secs");
     }
     return interval;
   }
@@ -133,7 +135,7 @@ public class Clock {
    *  @return double-precision value of the minute hand location
    */
   public double getMinuteHand() {
-    minAngle = (MINUTE_HAND_DEGREES_PER_SECOND * totalSecs ) % 360;
+    minAngle = ( MINUTE_HAND_DEGREES_PER_SECOND * totalSecs ) % 360;
     return minAngle;
   }
 
@@ -165,7 +167,7 @@ public class Clock {
    *  @return String value of the current clock
    */
   public String toString() {
-    return Math.floor( hours ) + ":" + Math.floor( mins ) + ":" + secs;
+    return Math.floor( hours ) + ":" + Math.floor( mins ) + ":" + secs ;
   }
 
   /**
@@ -197,18 +199,20 @@ public class Clock {
     System.out.print( "      sending '  0 degrees', expecting double value   0.0" );
     try { System.out.println( ( 0.0 == clock.validateAngleArg( "0.0" ) ) ? " - got 0.0" : " - no joy" ); }
     catch( Exception e ) { System.out.println ( " - Exception thrown: " + e.toString() ); }
+    System.out.print( "      sending '  20 degrees', expecting exception " );
+    try { System.out.println( ( 20 == clock.validateAngleArg( "20" ) ) ? " - got 20" : " - no joy" ); }
+    catch( Exception e ) { System.out.println ( " - Exception thrown: " + e.toString() ); }
     System.out.print( "      sending '  370 degrees', expecting exception " );
-    try { System.out.println( ( 0.0 == clock.validateAngleArg( "370" ) ) ? " - got 0.0" : " - no joy" ); }
+    try { System.out.println( ( 370 == clock.validateAngleArg( "370" ) ) ? " - got 0.0" : " - no joy" ); }
     catch( Exception e ) { System.out.println ( " - Exception thrown: " + e.toString() ); }
     System.out.print( "      sending '  -1 degrees', expecting exception " );
-    try { System.out.println( ( 0.0 == clock.validateAngleArg( "-1" ) ) ? " - got 0.0" : " - no joy" ); }
+    try { System.out.println( ( -1 == clock.validateAngleArg( "-1" ) ) ? " - got 0.0" : " - no joy" ); }
     catch( Exception e ) { System.out.println ( " - Exception thrown: " + e.toString() ); }
-    System.out.println( "Testing validateAngleArg()....");
     System.out.print( "      sending '  a degrees', expecting exception " );
     try { System.out.println( ( 0.0 == clock.validateAngleArg( "a" ) ) ? " - got 0.0" : " - no joy" ); }
     catch( Exception e ) { System.out.println ( " - Exception thrown: " + e.toString() ); }
     System.out.println();
-    System.out.println( "Testing getHourHand expecting 5.004" );
+    System.out.println( "Testing getHourHand expecting 5.0040000000000004" );
     clock.interval = 600;
     clock.tick();
     System.out.println( clock.getHourHand() );
@@ -220,6 +224,32 @@ public class Clock {
     System.out.println();
     System.out.println( "Test for getHandAngle expecting 55 degrees" );
     System.out.println( clock.getHandAngle() );
+    System.out.println();
+    System.out.println( "Testing tick 6 times" );
+    clock.tick();
+    System.out.println( clock.toString() );
+    clock.tick();
+    System.out.println( clock.toString() );
+    clock.tick();
+    System.out.println( clock.toString() );
+    clock.tick();
+    System.out.println( clock.toString() );
+    clock.tick();
+    System.out.println( clock.toString() );
+    clock.tick();
+    System.out.println( clock.toString() );
+    System.out.println();
+    System.out.println( "Testing getHourHand expecting 35.028" );
+    System.out.println( clock.getHourHand() );
+    System.out.println( clock.toString() );
+    System.out.println();
+    System.out.println( "Testing getMinuteHand expecting 60" );
+    System.out.println( clock.getMinuteHand() );
+    System.out.println( clock.toString() );
+    System.out.println();
+    System.out.println( "Test for getHandAngle expecting 24.972 degrees" );
+    System.out.println( clock.getHandAngle() );
+    System.out.println();
     System.out.println();
     System.out.println( "Creating a new clock: " );
     Clock clock1 = new Clock();
@@ -236,8 +266,9 @@ public class Clock {
     System.out.println( clock1.getMinuteHand() );
     System.out.println( clock1.toString() );
     System.out.println();
-    System.out.println( "Test for getHandAngle expecting 5.5 degrees" );
+    System.out.println( "Test for getHandAngle expecting 5.4996 degrees" );
     System.out.println( clock1.getHandAngle() );
+    System.out.println();
     System.out.println( "Test for getHandAngle for a full clock" );
     Clock c = new Clock();
     c.interval = 600;
