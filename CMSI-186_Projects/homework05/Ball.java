@@ -14,6 +14,8 @@
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-03-21  Serena Zafiris  Initial writing
  *  @version 1.0.1  2017-03-27  Serena Zafiris  Added checkCollision
+ *  @version 1.0.2  2017-04-02  Serena Zafiris  Added rest of methods and tester
+ *  @version 1.0.3  2017-04-02  Serena Zafiris  Deleted velocity methods
  */
 
 public class Ball {
@@ -22,7 +24,6 @@ public class Ball {
   private double y = 0.0;
   private double dx = 0.0;
   private double dy = 0.0;
-  private double v = 0.0;
 
   /* Constructor */
   public Ball( double xPos, double yPos, double deltaX, double deltaY ) {
@@ -30,21 +31,6 @@ public class Ball {
     y = yPos;
     dx = deltaX;
     dy = deltaY;
-    v = 0;
-  }
-
-  /* Method that calculates the current velocity */
-  public double getVelocity() {
-    v = Math.sqrt( ( dx * dx ) + ( dy * dy ) );
-    return v;
-  }
-
-  /* Method that calculates the current velocity */
-  public double updateVelocity() {
-    dx *= 0.99;
-    dy *= 0.99;
-    v = Math.sqrt( ( dx * dx ) + ( dy * dy ) );
-    return v;
   }
 
   public double updateDx() {
@@ -82,7 +68,7 @@ public class Ball {
 
   public String toString() {
     String output = "";
-    if( dx < 1 && dy < 1 ) {
+    if( Math.abs( dx ) < ( 1 / 12 ) && Math.abs( dy ) < ( 1 / 12 ) ) {
       output = "position: " + x + ", " + y + " at rest";
     } else {
       output = "position: " + x + ", " + y + " velocity: " + dx + ", " + dy;
@@ -97,9 +83,15 @@ public class Ball {
     System.out.println( ball.getXPos() );
     System.out.println( "Testing getYPos (expecting 40.0) " );
     System.out.println( ball.getYPos() );
-    System.out.println( "Testing getVelocity (expecting 5) " );
-    System.out.println( ball.getVelocity() );
-    System.out.println( "Testing updateVelocity (expecting 4.95) " );
-    System.out.println( ball.updateVelocity() );
+    System.out.println( "Testing getDX (expecting 3.0) " );
+    System.out.println( ball.getDX() );
+    System.out.println( "Testing getDY (expecting 4.0) " );
+    System.out.println( ball.getDY() );
+    System.out.println( "Testing updateDx (expecting 2.969999) " );
+    System.out.println( ball.updateDx() );
+    System.out.println( "Testing updateDy (expecting 3.96) " );
+    System.out.println( ball.updateDy() );
+    System.out.println( "Testing toString " );
+    System.out.println( ball.toString() );
   }
 }
