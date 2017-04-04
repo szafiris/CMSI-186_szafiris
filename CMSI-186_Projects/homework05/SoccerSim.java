@@ -14,6 +14,9 @@
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-03-23  Serena Zafiris  Initial writing
  *  @version 1.0.1  2017-03-27  Serena Zafiris  Added checkBoundary
+ *  @version 1.0.2  2017-03-28  Serena Zafiris  Added rest of methods
+ *  @version 1.0.3  2017-04-01  Serena Zafiris  Added main
+ *  @version 1.0.4  2017-03-27  Serena Zafiris  Fixed main and checkBoundary
  */
 
 public class SoccerSim {
@@ -22,8 +25,8 @@ public class SoccerSim {
   private static final double FIELD_SIZE_X = 100;
   private Ball[] ballArray = null;
   private Timer t = null;
-  private static final double POLE_X = 50;
-  private static final double POLE_Y = 50;
+  private static final double POLE_X = 15;
+  private static final double POLE_Y = 15;
 
 
   public SoccerSim( String args[] ) {
@@ -31,15 +34,16 @@ public class SoccerSim {
     try {
       int ballCount =  ( args.length / 4 );
       ballArray = new Ball[ballCount];
-      for( int j = 0; j < ballCount; j++ ) {
+      int j = 0;
         for( int i = 0; i < args.length; i++ ) {
           double x = Double.parseDouble( args[i++] );
           double y = Double.parseDouble( args[i++] );
           double dx = Double.parseDouble( args[i++] );
           double dy = Double.parseDouble( args[i] );
           ballArray[j] = new Ball( x, y, dx, dy );
+          j++;
+
         }
-      }
     }
     catch( NumberFormatException nfe ) { System.out.println ( "Please enter in numbers only" ); }
   }
@@ -69,20 +73,16 @@ public class SoccerSim {
         y1 = ballArray[i].getYPos();
         x2 = ballArray[j].getXPos();
         y2 = ballArray[j].getYPos();
-        System.out.println(x1);
-        System.out.println(y1);
-        System.out.println(x2);
-        System.out.println(y2);
-        System.out.println("hey");
-        if( Math.sqrt( Math.pow( ( x1 - x2 ), 2 ) + Math.pow( ( y1 - y2 ), 2 ) ) <= 8.9 ) {
+        if( Math.sqrt( Math.pow( ( x1 - x2 ), 2 ) + Math.pow( ( y1 - y2 ), 2 ) ) <= ( 8.9 / 12 ) ) {
           return true;
         }
-        if( Math.sqrt( Math.pow( ( x1 - POLE_X ), 2 ) + Math.pow( ( y1 - POLE_Y ), 2 ) ) <= 4.45 ) {
-          return true;
-        }
-        if( Math.sqrt( Math.pow( ( x2 - POLE_X ), 2 ) + Math.pow( ( y2 - POLE_Y ), 2 ) ) <= 4.45 ) {
-          return true;
-        }
+      }
+    }
+    for( int i = 0; i < ( ballArray.length ); i++ ) {
+      x1 = ballArray[i].getXPos();
+      y1 = ballArray[i].getYPos();
+      if( Math.sqrt( Math.pow( ( x1 - POLE_X ), 2 ) + Math.pow( ( y1 - POLE_Y ), 2 ) ) <= ( 4.45 / 12 ) ) {
+        return true;
       }
     }
     return false;
@@ -90,7 +90,7 @@ public class SoccerSim {
 
   public boolean checkRest( String[] args ) {
     for( int i = 0; i < ballArray.length; i++ ) {
-      if( Math.abs( ballArray[i].getDX() ) > 1 || Math.abs ( ballArray[i].getDY() ) > 1 ) {
+      if( Math.abs( ballArray[i].getDX() ) > ( 1 / 12 ) || Math.abs ( ballArray[i].getDY() ) > ( 1 / 12 ) ) {
         return false;
       }
     }
@@ -142,6 +142,7 @@ public class SoccerSim {
       }
       if( ss.checkRest( args ) ) {
         System.out.println( "All ball(s) at rest. No collisions occured" );
+        ss.report( t );
         break;
       }
       ss.report( t );
@@ -149,5 +150,4 @@ public class SoccerSim {
       ss.update( args );
     }
   }
-
 }
