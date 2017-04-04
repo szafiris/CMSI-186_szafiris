@@ -14,6 +14,7 @@
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-03-23  Serena Zafiris  Initial writing
  *  @version 1.0.1  2017-03-28  Serena Zafiris  Added tick and toString and tester
+ *  @version 1.0.1  2017-04-02  Serena Zafiris  Edited tester
  */
 
 public class Timer {
@@ -23,7 +24,7 @@ public class Timer {
   private double secs;
   private double totalSecs;
 
-  public Timer(){
+  public Timer() {
     hours = 0;
     mins = 0;
     secs = 0;
@@ -49,6 +50,7 @@ public class Timer {
   }
 
   public static void main( String args[] ) {
+    /* Tick tested fully in Clock.java */
     Timer t = new Timer();
     System.out.println( t.toString() );
     t.tick();
