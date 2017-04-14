@@ -53,7 +53,7 @@ public class GinormousInt {
     }
     /* Add loop */
     answer = new byte[count];
-    for( int i = 0; i < b.length; i++ ) {
+    for( int i = 0; i < ( count - 1 ); i++ ) {
       if( carry == false ) {
         answer[i] = (byte)( (int) b[i] + (int)x.b[i] );
         if ( answer[i] >= 10 ) {
@@ -146,10 +146,11 @@ public class GinormousInt {
 
   /* Subtraction */
   public GinormousInt subtract( GinormousInt value ) {
-    boolean borrow = false;
-    StringBuffer answer = new StringBuffer( Math.max( x.b.length, b.length ) );
-    int count = Math.max( x.b.length, b.length );
-    // borrow boolean
+    // boolean borrow = false;
+    // StringBuffer answerString = new StringBuffer( Math.max( x.b.length, b.length ) );
+    // int count = Math.max( x.b.length, b.length );
+    // byte[] answer = new byte[count];
+    // // borrow boolean
 
     return new GinormousInt("0");
   }
