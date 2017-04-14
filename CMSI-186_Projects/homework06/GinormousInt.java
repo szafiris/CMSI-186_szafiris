@@ -14,6 +14,7 @@
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-04-09  Serena Zafiris  Initial writing
  *  @version 1.0.1  2017-04-10  Serena Zafiris  Added Constructor and toString
+ *  @version 1.0.1  2017-04-12  Serena Zafiris  Added Add
  */
 
 import java.lang.StringBuffer;
@@ -39,47 +40,123 @@ public class GinormousInt {
       b[j] = Byte.parseByte( new Character( value.charAt(i) ).toString() );
       j++;
     }
-
   }
 
   /* Addition */
   public GinormousInt add( GinormousInt x ) {
     boolean carry = false;
-    byte[] d = 0;
     byte[] answer = null;
-    int count = b.length;
+    int count = b.length + 1;
+    StringBuffer answerString = new StringBuffer( Math.max( b.length, x.b.length ) );
     if( b.length > x.b.length ) {
-      count = x.b.length;
+      count = x.b.length + 1;
     }
+    /* Add loop */
     answer = new byte[count];
-    for( int i = 0; i < b.length - 1; i++ ) {
+    for( int i = 0; i < b.length; i++ ) {
       if( carry == false ) {
-        answer[i] = b[i] + x.b[i];
+        answer[i] = (byte)( (int) b[i] + (int)x.b[i] );
         if ( answer[i] >= 10 ) {
-          answer[i] = answer[i] - 10;
+          answer[i] = (byte) ( (int) answer[i] - 10 );
           carry = true;
         }
-        carry = false;
-      }
-      if( carry == true ) {
-        answer[i] = 1 + b[i] + x.b[i];
-        if ( answer[i] >= 10 ) {
-          answer[i] = answer[i] - 10;
-          carry = true;
+      } else if( carry ) {
+          answer[i] = (byte)( 1 + (int) b[i] + (int)x.b[i] );;
+          if ( answer[i] >= 10 ) {
+            answer[i] = (byte) ( (int) answer[i] - 10 );
+            carry = true;
+          } else {
+            carry = false;
         }
-        carry = false;
       }
     }
-    return new GinormousInt("0");
+    // Copy loop
+    int j = 0;
+    for( int i = 0; i < count; i++ ) {
+      answerString = answerString.append( (int) answer[i] );
+      j++;
+    }
+    j--;
+    // Situation 1
+    if( b.length > x.b.length ) {
+      count = b.length;
+      if( carry ) {
+        b[j] = (byte) ( (int) b[j] + 1 );
+        carry = false;
+        if( b[j] > 9 ) {
+          b[j] = 0;
+          carry = true;
+        }
+      }
+      answerString = answerString.replace( j, j + 1, new Byte( b[j] ).toString()  );
+      for( int i = j + 1; i < count; i++ ) {
+        if( carry ) {
+          b[i] = (byte) ( (int) b[i] + 1 );
+          carry = false;
+          if( b[i] > 9 ) {
+            b[i] = 0;
+            carry = true;
+          }
+        }
+        answerString = answerString.append( (int) b[i] );
+      }
+    }
+    //Situation 2
+    if( b.length < x.b.length ){
+      count = Math.max(b.length, x.b.length);
+      if( carry ) {
+        x.b[j] = (byte) ( (int) x.b[j] + 1 );
+        carry = false;
+        if( x.b[j] > 9 ) {
+          x.b[j] = 0;
+          carry = true;
+        }
+      }
+      answerString = answerString.replace( j, j + 1, new Byte( x.b[j] ).toString()  );
+      for( int i = j + 1; i < count; i++ ) {
+        if( carry ) {
+          x.b[i] = (byte) ( (int) x.b[i] + 1 );
+          carry = false;
+          System.out.println(x.b[i]);
+          if( x.b[i] > 9 ) {
+              x.b[i] = 0;
+            carry = true;
+          }
+        }
+        answerString = answerString.append( (int) x.b[i] );
+      }
+    }
+    if( carry ) {
+      answerString = answerString.append( 1 );
+    }
+    System.out.println( answerString );
+    answerString.reverse();
+    // if( answerString.charAt(0) == '0' ) {
+    //   answerString.deleteCharAt(0);
+    // }
+    // if( answerString.charAt(0) == '+' ) {
+    //   answerString.deleteCharAt(0);
+    // }
+    // if( answerString.charAt(0) == '0' ) {
+    //   answerString.deleteCharAt(0);
+    // }
+
+    return new GinormousInt( answerString.toString() );
   }
 
   /* Subtraction */
   public GinormousInt subtract( GinormousInt value ) {
+    boolean borrow = false;
+    StringBuffer answer = new StringBuffer( Math.max( x.b.length, b.length ) );
+    int count = Math.max( x.b.length, b.length );
+    // borrow boolean
+
     return new GinormousInt("0");
   }
 
   /* Multiplication */
   public GinormousInt multiply( GinormousInt value ) {
+        // while statement
     return new GinormousInt("0");
   }
 
@@ -136,5 +213,4 @@ public class GinormousInt {
      }
       return reversedString;
    }
-
 }
