@@ -37,6 +37,10 @@ public class GinormousIntTester {
       GinormousInt g6 = null;
       GinormousInt g7 = null;
       GinormousInt g8 = null;
+      GinormousInt g9 = null;
+      GinormousInt g10 = null;
+      GinormousInt g11 = null;
+      GinormousInt g12 = null;
       System.out.println( "    Making a new GinormousInt: " );
       try {
         g1 = new GinormousInt( "144127909719710664015092431502440849849506284148982076191826176553" );
@@ -149,6 +153,53 @@ public class GinormousIntTester {
       try {
         g8 = new GinormousInt( "10" );
         System.out.println( "      expecting: blah and got " + g8.add( g1 ) );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      System.out.println( "\n    Calling add method: "  );
+      try {
+        g9 = new GinormousInt("43");
+        g10 = new GinormousInt("29");
+        System.out.println( "      expecting: 72" + "\n" +
+                            "        and got: " + g9.add(g10).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      try {
+        g11 = new GinormousInt("999345");
+        g12 = new GinormousInt("798");
+        System.out.println( "      expecting: 1000143" + "\n" +
+                            "        and got: " + g11.add(g12).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      try {
+        g11 = new GinormousInt("999345");
+        g12 = new GinormousInt("798");
+        System.out.println( "      expecting: 1000143" + "\n" +
+                            "        and got: " + g12.add(g11).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      System.out.println( "\n    Calling subtract method: "  );
+      try {
+        g11 = new GinormousInt("999345");
+        g12 = new GinormousInt("798");
+        System.out.println( "      expecting: 998547" + "\n" +
+                            "        and got: " + g11.subtract(g12).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      try {
+        g11 = new GinormousInt("999345");
+        g12 = new GinormousInt("798");
+        System.out.println( "      expecting: -998547" + "\n" +
+                            "        and got: " + g12.subtract(g11).toString() );
       }
       catch( UnsupportedOperationException uoe ) {
         System.out.println( "Unsupported Operation " );
