@@ -15,9 +15,12 @@
  *  @version 1.0.0  2017-04-09  Serena Zafiris  Initial writing
  *  @version 1.0.1  2017-04-10  Serena Zafiris  Added Constructor and toString
  *  @version 1.0.1  2017-04-12  Serena Zafiris  Added Add
+ *  @version 1.0.2  2017-04-15  Serena Zafiris  Added Subtract
+ *  @version 1.0.3  2017-04-18  Serena Zafiris  Added Subtract for both ways
  */
 
 import java.lang.StringBuffer;
+import java.util.Arrays;
 
 public class GinormousInt {
   /* Variables go here */
@@ -36,12 +39,20 @@ public class GinormousInt {
     s = value;
     b = new byte[value.length()];
     int j = 0;
-    for( int i = value.length() - 1; i >= 0; i-- ) {
+    int count = 0;
+    if( value.charAt(0) == '+' || value.charAt(0) == '-' ) {
+      count = 1;
+    }
+    for( int i = ( value.length() - 1 ); i >= count; i-- ) {
       b[j] = Byte.parseByte( new Character( value.charAt(i) ).toString() );
       j++;
     }
   }
 
+  //
+  public void toArray( byte[] d ) {
+    System.out.println(Arrays.toString(d));
+  }
   /* Addition */
   public GinormousInt add( GinormousInt x ) {
     boolean carry = false;
@@ -117,7 +128,6 @@ public class GinormousInt {
         if( carry ) {
           x.b[i] = (byte) ( (int) x.b[i] + 1 );
           carry = false;
-          System.out.println(x.b[i]);
           if( x.b[i] > 9 ) {
               x.b[i] = 0;
             carry = true;
@@ -129,7 +139,6 @@ public class GinormousInt {
     if( carry ) {
       answerString = answerString.append( 1 );
     }
-    System.out.println( answerString );
     answerString.reverse();
     // if( answerString.charAt(0) == '0' ) {
     //   answerString.deleteCharAt(0);
@@ -145,19 +154,81 @@ public class GinormousInt {
   }
 
   /* Subtraction */
-  public GinormousInt subtract( GinormousInt value ) {
-    // boolean borrow = false;
-    // StringBuffer answerString = new StringBuffer( Math.max( x.b.length, b.length ) );
-    // int count = Math.max( x.b.length, b.length );
-    // byte[] answer = new byte[count];
-    // // borrow boolean
-
-    return new GinormousInt("0");
+  public GinormousInt subtract( GinormousInt x ) {
+    boolean borrow = false;
+    byte[] p = null;
+    byte[] q = null;
+    StringBuffer answerString = new StringBuffer( Math.max( x.b.length, b.length ) );
+    // p is always greater than q
+    if( b.length > x.b.length || 0 <= s.compareTo(x.s) ) {
+      p = new byte[b.length];
+      q = new byte[x.b.length];
+      for( int i = 0; i < b.length; i++ ) {
+        p[i] = b[i];
+      }
+      for( int i = 0; i < x.b.length; i++ ) {
+        q[i] = x.b[i];
+      }
+    } else {
+      p = new byte[x.b.length];
+      q = new byte[b.length];
+      for( int i = 0; i < x.b.length; i++ ) {
+        p[i] = x.b[i];
+      }
+      for( int i = 0; i < b.length; i++ ) {
+        q[i] = b[i];
+      }
+    }
+    int count =  q.length;
+    byte[] answer = new byte[count];
+    int j = 0;
+    //Subtraction loop
+    for( int i = 0; i < count; i++ ) {
+      answer[i] = (byte)( (int) p[i] - (int) q[i] );
+      if( answer[i] > 0 ) {
+        borrow = false;
+      } else if( answer[i] < 0 ) {
+        borrow = true;
+      }
+      if( borrow ) {
+        j = i + 1;
+        while( p[j] == 0 ) {
+          j++;
+        }
+        answer[i] = (byte)( (int)answer[i] + 10 );
+        p[j] = (byte)( (int)p[j] - 1 );
+        for( int k = ( j - 1 ); k > i; k-- ) {
+          p[k] = (byte) 9;
+        }
+        borrow = false;
+      }
+    }
+    //Copy loop
+    toArray(answer);
+    j = 0;
+    for( int i = 0; i < count; i++ ) {
+      answerString = answerString.append( (int) answer[i] );
+      j++;
+    }
+    count = p.length;
+    answerString = answerString.replace( j, j + 1, new Byte( p[j] ).toString()  );
+    for( int i = j + 1; i < count; i++ ) {
+      answerString = answerString.append( (int) p[i] );
+    }
+    if( b.length < x.b.length ) {
+      answerString = answerString.append( "-" );
+    }
+    answerString.reverse();
+    return new GinormousInt( answerString.toString() );
   }
 
   /* Multiplication */
-  public GinormousInt multiply( GinormousInt value ) {
-        // while statement
+  public GinormousInt multiply( GinormousInt x ) {
+    // int count = 0;
+    // byte[] answer = new byte[count];
+    // while( count <= ( x.b.length - 1 ) ) {
+    //   answer[i]
+    // }
     return new GinormousInt("0");
   }
 
