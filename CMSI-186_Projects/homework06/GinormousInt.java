@@ -17,6 +17,7 @@
  *  @version 1.0.1  2017-04-12  Serena Zafiris  Added Add
  *  @version 1.0.2  2017-04-15  Serena Zafiris  Added Subtract
  *  @version 1.0.3  2017-04-18  Serena Zafiris  Added Subtract for both ways
+ *  @version 1.0.3  2017-04-19  Serena Zafiris  Added multiply and divide and remainder
  */
 
 import java.lang.StringBuffer;
@@ -59,7 +60,7 @@ public class GinormousInt {
 
   /* toArray method */
   public void toArray( byte[] d ) {
-    System.out.println(Arrays.toString(d));
+    System.out.println( Arrays.toString(d) );
   }
   /* Addition */
   public GinormousInt add( GinormousInt x ) {
@@ -73,9 +74,11 @@ public class GinormousInt {
     if( positive && !x.positive ) {
       x.positive = true;
       return subtract(x);
-    } else if( !positive && x.positive ) {
+    }
+    // Tried to make this work, cannot get it to function
+    else if( !positive && x.positive ) {
       positive = true;
-      return x.subtract(this);
+      return subtract(x);
     }
     /* Add loop */
     answer = new byte[count];
@@ -194,7 +197,6 @@ public class GinormousInt {
         q[i] = b[i];
       }
     }
-
     int count =  q.length;
     byte[] answer = new byte[count];
     int j = 0;
@@ -210,7 +212,6 @@ public class GinormousInt {
     }
     //Subtraction loop
     for( int i = 0; i < count; i++ ) {
-
       answer[i] = (byte)( (int) p[i] - (int) q[i] );
       if( answer[i] > 0 ) {
         borrow = false;
@@ -231,7 +232,6 @@ public class GinormousInt {
       }
     }
     //Copy loop
-    toArray(answer);
     j = 0;
     for( int i = 0; i < count; i++ ) {
       answerString = answerString.append( (int) answer[i] );
@@ -253,6 +253,13 @@ public class GinormousInt {
 
   /* Multiplication */
   public GinormousInt multiply( GinormousInt x ) {
+    // An attempt to handle negatives, unfortunatly it just causes the computer to generate a really large number for no discernible reason
+    // boolean needNegative = false;
+    // if( !positive && x.positive || positive && !x.positive ) {
+    //   needNegative = true;
+    // }
+    //positive = true;
+    //x.positive = true;
     String r = s;
     int lastNum = 0;
     GinormousInt answer = new GinormousInt("0");
@@ -263,15 +270,19 @@ public class GinormousInt {
       }
       r = halve(r);
       x = x.add(x);
-      System.out.println(x.toString());
     }
     answer = answer.add(x);
-    // StringBuffer answerString = new StringBuffer( answer.length - 1 );
-    // for( int i = 0; i < answer.length; i++ ) {
-    //   answerString.append( answer[i] );
+    // StringBuffer answerString = new StringBuffer( answer.b.length - 1 );
+    // for( int i = 0; i < ( answer.b.length - 1); i++ ) {
+    //   answerString.append( (int) answer.b[i] );
     // }
-    // answerString.append( "-" );
+    // Second part to attempt to handle negatives
+    // if( needNegative ) {
+    //   answerString.append( "-" );
+    // }
+    // answerString.reverse();
     return answer;
+  //  return new GinormousInt("0");
   }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -318,6 +329,7 @@ public class GinormousInt {
 
   /* Division */
   public GinormousInt divide( GinormousInt x ) {
+    // Attempted to handle negatives, however, could not get it for multiply and ad no other ideas on how to do it with divide
     int answerCounter = 0;
     boolean stop = false;
     GinormousInt remainder = new GinormousInt("0");
@@ -340,6 +352,7 @@ public class GinormousInt {
     boolean stop = false;
     GinormousInt remainder = new GinormousInt("0");
     GinormousInt answer = new GinormousInt(s);
+    StringBuffer asb = new StringBuffer(remainder.b.length);
     while( true ) {
       answer = answer.subtract(x);
       if( !answer.positive ) {
@@ -348,7 +361,14 @@ public class GinormousInt {
       answerCounter += 1;
     }
     remainder = answer.add(x);
-    return remainder;
+    for( int i = 0; i < remainder.b.length; i++ ) {
+      asb = asb.append( (int)remainder.b[i] );
+    }
+    asb.reverse();
+    if(asb.charAt(0) == '-' ) {
+      asb = asb.deleteCharAt(0);
+    }
+    return new GinormousInt(asb.toString());
   }
 
   /* toString */
@@ -380,7 +400,7 @@ public class GinormousInt {
   }
 
   /* valueOf */
-
+  // Could not even get to this. I'm sorry
   /**
    * Method to return the reverse of a string passed as an argument
    *
