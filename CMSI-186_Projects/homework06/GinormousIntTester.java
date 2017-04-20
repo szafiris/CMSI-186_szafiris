@@ -14,6 +14,7 @@
  *  -----  ----------  ------------    ---------------------------------------------------------------------
  *  1.0.0  2017-04-05  B.J. Johnson    Initial writing and release
  *  1.0.1  2017-04-10  Serena Zafiris  Added try catch loops
+ *  1.0.2  2017-04-19  Serena Zafiris  Added tests for subtract, multiply, divide and remainder
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class GinormousIntTester {
@@ -41,6 +42,8 @@ public class GinormousIntTester {
       GinormousInt g10 = null;
       GinormousInt g11 = null;
       GinormousInt g12 = null;
+      GinormousInt g13 = null;
+      GinormousInt g14 = null;
       System.out.println( "    Making a new GinormousInt: " );
       try {
         g1 = new GinormousInt( "144127909719710664015092431502440849849506284148982076191826176553" );
@@ -152,12 +155,13 @@ public class GinormousIntTester {
       System.out.println( "\n    Making a eighth new GinormousInt, calling add method: "  );
       try {
         g8 = new GinormousInt( "10" );
-        System.out.println( "      expecting: blah and got " + g8.add( g1 ) );
+        System.out.println( "      expecting: 144127909719710664015092431502440849849506284148982076191826176563 and got " + g8.add( g1 ) );
       }
       catch( UnsupportedOperationException uoe ) {
         System.out.println( "Unsupported Operation " );
       }
       System.out.println( "\n    Calling add method: "  );
+      System.out.println( "\n    Adding 43 + 29: "  );
       try {
         g9 = new GinormousInt("43");
         g10 = new GinormousInt("29");
@@ -167,6 +171,36 @@ public class GinormousIntTester {
       catch( UnsupportedOperationException uoe ) {
         System.out.println( "Unsupported Operation " );
       }
+      System.out.println( "\n    Adding 43 + - 29: "  );
+      try {
+        g9 = new GinormousInt("43");
+        g10 = new GinormousInt("-29");
+        System.out.println( "      expecting: 14" + "\n" +
+                            "        and got: " + g9.add(g10).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      System.out.println( "\n    Adding -43 + -23: "  );
+      try {
+        g9 = new GinormousInt("-43");
+        g10 = new GinormousInt("-29");
+        System.out.println( "      expecting: -72" + "\n" +
+                            "        and got: " + g9.add(g10).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      // try {
+      //   g9 = new GinormousInt("-43");
+      //   g10 = new GinormousInt("29");
+      //   System.out.println( "      expecting: -14" + "\n" +
+      //                       "        and got: " + g9.add(g10).toString() );
+      // }
+      // catch( UnsupportedOperationException uoe ) {
+      //   System.out.println( "Unsupported Operation " );
+      // }
+      System.out.println( "\n    Adding 99345 + 798: "  );
       try {
         g11 = new GinormousInt("999345");
         g12 = new GinormousInt("798");
@@ -176,6 +210,7 @@ public class GinormousIntTester {
       catch( UnsupportedOperationException uoe ) {
         System.out.println( "Unsupported Operation " );
       }
+      System.out.println( "\n    Adding 999345 to 798: "  );
       try {
         g11 = new GinormousInt("999345");
         g12 = new GinormousInt("798");
@@ -186,6 +221,7 @@ public class GinormousIntTester {
         System.out.println( "Unsupported Operation " );
       }
       System.out.println( "\n    Calling subtract method: "  );
+      System.out.println( "\n    999345 - 798: "  );
       try {
         g11 = new GinormousInt("999345");
         g12 = new GinormousInt("798");
@@ -195,6 +231,7 @@ public class GinormousIntTester {
       catch( UnsupportedOperationException uoe ) {
         System.out.println( "Unsupported Operation " );
       }
+      System.out.println( "\n    798 - 999345: "  );
       try {
         g11 = new GinormousInt("999345");
         g12 = new GinormousInt("798");
@@ -204,7 +241,78 @@ public class GinormousIntTester {
       catch( UnsupportedOperationException uoe ) {
         System.out.println( "Unsupported Operation " );
       }
+      System.out.println( "\n    -999345 - -798: "  );
+      try {
+        g11 = new GinormousInt("-999345");
+        g12 = new GinormousInt("-798");
+        System.out.println( "      we are expecting: -998547" + "\n" +
+                            "        and got: " + g12.subtract(g11).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      System.out.println( "\n    10 - 14: "  );
+      try {
+        g11 = new GinormousInt("10");
+        g12 = new GinormousInt("14");
+        System.out.println( "      we are expecting: -4" + "\n" +
+                            "        and got: " + g11.subtract(g12).toString() );
+      }
+      catch( UnsupportedOperationException uoe ) {
+        System.out.println( "Unsupported Operation " );
+      }
+      System.out.println( "\n\n    TESTING MULTIPLY() METHOD:\n" +
+                         "    ==========================" );
+     System.out.println( "\n       Multiplying g13 by g14 [10 * 20]: " );
+     try {
+       g13 = new GinormousInt("10");
+       g14 = new GinormousInt("20");
+        System.out.println( "      expecting: 200\n" +
+                            "        and got: " + g13.multiply( g14 ) );
+     }
+     catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    //  System.out.println( "\n      Test 046: Multiplying g13 by g14 [-10 * 20]: " );
+    //  try {
+    //    g13 = new GinormousInt("-10");
+    //    g14 = new GinormousInt("20");
+    //     System.out.println( "      expecting: -200\n" +
+    //                         "        and got: " + g13.multiply( g14 ) );
+    //  }
+    //  catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    //  System.out.println( "\n      Test 047: Multiplying g13 by g14 [10 * -20]: " );
+    //  try {
+    //    g13 = new GinormousInt("10");
+    //    g14 = new GinormousInt("-20");
+    //     System.out.println( "      expecting: -200\n" +
+    //                         "        and got: " + g13.multiply( g14 ) );
+    //  }
+    //  catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    //  System.out.println( "\n      Test 048: Multiplying g13 by g14 [-10 * -20]: " );
+    //  try {
+    //    g13 = new GinormousInt("-10");
+    //    g14 = new GinormousInt("-20");
+    //     System.out.println( "      expecting: 200\n" +
+    //                         "        and got: " + g13.multiply( g14 ) );
+  //   }
+    // catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+     System.out.println( "\n\n    TESTING DIVIDE() METHOD:\n" +
+                        "    ==========================" );
+     try {
+       g13 = new GinormousInt("10");
+       g14 = new GinormousInt("20");
+        System.out.println( "      expecting: 2\n" +
+                            "        and got: " + g14.divide( g13 ) );
+     }
+     catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+     System.out.println( "\n\n    TESTING REMAINDER() METHOD:\n" +
+                        "    ==========================" );
+     try {
+       g13 = new GinormousInt("10");
+       g14 = new GinormousInt("20");
+        System.out.println( "      expecting: 0\n" +
+                            "        and got: " + g14.remainder( g13 ) );
+     }
+     catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
       System.exit( 0 );
-
    }
 }
