@@ -17,7 +17,8 @@
  *  @version 1.0.1  2017-04-12  Serena Zafiris  Added Add
  *  @version 1.0.2  2017-04-15  Serena Zafiris  Added Subtract
  *  @version 1.0.3  2017-04-18  Serena Zafiris  Added Subtract for both ways
- *  @version 1.0.3  2017-04-19  Serena Zafiris  Added multiply and divide and remainder
+ *  @version 1.0.4  2017-04-19  Serena Zafiris  Added multiply and divide and remainder
+ *  @version 1.0.5  2017-04-20  Serena Zafiris  Added valueOf
  */
 
 import java.lang.StringBuffer;
@@ -400,7 +401,17 @@ public class GinormousInt {
   }
 
   /* valueOf */
-  // Could not even get to this. I'm sorry
+  public GinormousInt valueOf( long x ){
+    GinormousInt g = null;
+    try{
+      g = new GinormousInt( new Long( x ).toString() );
+    } catch( NumberFormatException nfe ) {
+      System.out.println( "Please enter in numbers only" );
+    }
+    return g;
+  }
+
+
   /**
    * Method to return the reverse of a string passed as an argument
    *
