@@ -15,6 +15,7 @@
  *  1.0.0  2017-04-05  B.J. Johnson    Initial writing and release
  *  1.0.1  2017-04-10  Serena Zafiris  Added try catch loops
  *  1.0.2  2017-04-19  Serena Zafiris  Added tests for subtract, multiply, divide and remainder
+ *  1.0.3  2017-04-20  Serena Zafiris  Added test for valueOf
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 public class GinormousIntTester {
@@ -44,6 +45,7 @@ public class GinormousIntTester {
       GinormousInt g12 = null;
       GinormousInt g13 = null;
       GinormousInt g14 = null;
+      long num = 987;
       System.out.println( "    Making a new GinormousInt: " );
       try {
         g1 = new GinormousInt( "144127909719710664015092431502440849849506284148982076191826176553" );
@@ -313,6 +315,14 @@ public class GinormousIntTester {
                             "        and got: " + g14.remainder( g13 ) );
      }
      catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+     System.out.println( "\n\n    TESTING valueOf() METHOD:\n" +
+                        "    ==========================" );
+    try {
+      g14 = new GinormousInt("0");
+       System.out.println( "      expecting: 987\n" +
+                           "        and got: " + g14.valueOf( num ) );
+    }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
       System.exit( 0 );
    }
 }
