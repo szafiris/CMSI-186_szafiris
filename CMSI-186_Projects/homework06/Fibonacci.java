@@ -13,6 +13,7 @@
  *            Rev      Date     Modified by:    Reason for change/modification
  *           -----  ----------  ------------    -----------------------------------------------------------
  *  @version 1.0.0  2017-04-15  Serena Zafiris  Initial writing
+ *  @version 1.1.0  2017-04-19  Serena Zafiris  Finished program
  */
 
  public class Fibonacci {
@@ -51,11 +52,14 @@
     GinormousInt n1 = new GinormousInt( "0" );
     GinormousInt n2 = new GinormousInt( "1" );
     GinormousInt n3 = new GinormousInt( "1" );
+    if( args[0].equals( "1") ) {
+      System.out.println( "The number is: " + n1 );
+      System.exit( 0 );
+    }
     for( int i = 3; i <= count; i++ ) {
       n3 = n1.add(n2);
       n1 = n2;
       n2 = n3;
-
     }
     System.out.println( "The number is: " + n3 );
   }
