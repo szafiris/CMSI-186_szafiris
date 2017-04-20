@@ -32,7 +32,11 @@ public class GinormousInt {
   public static final GinormousInt TEN = new GinormousInt( "10" );
   private byte[] b = null;
   private String s = null;
-
+  public boolean positive = true;
+  private String myNumber = "";
+   private String reversed = "";
+   private byte[] a        = null;
+   private byte[] c        = null;
 
   /* Constructor */
   public GinormousInt( String value ) {
@@ -42,14 +46,18 @@ public class GinormousInt {
     int count = 0;
     if( value.charAt(0) == '+' || value.charAt(0) == '-' ) {
       count = 1;
+      b = new byte[value.length() - 1];
     }
     for( int i = ( value.length() - 1 ); i >= count; i-- ) {
       b[j] = Byte.parseByte( new Character( value.charAt(i) ).toString() );
       j++;
     }
+    if( value.charAt(0) == '-' ) {
+      positive = false;
+    }
   }
 
-  //
+  /* toArray method */
   public void toArray( byte[] d ) {
     System.out.println(Arrays.toString(d));
   }
@@ -61,6 +69,13 @@ public class GinormousInt {
     StringBuffer answerString = new StringBuffer( Math.max( b.length, x.b.length ) );
     if( b.length > x.b.length ) {
       count = x.b.length + 1;
+    }
+    if( positive && !x.positive ) {
+      x.positive = true;
+      return subtract(x);
+    } else if( !positive && x.positive ) {
+      positive = true;
+      return x.subtract(this);
     }
     /* Add loop */
     answer = new byte[count];
@@ -81,11 +96,15 @@ public class GinormousInt {
         }
       }
     }
+    //toArray(answer);
     // Copy loop
     int j = 0;
     for( int i = 0; i < count; i++ ) {
       answerString = answerString.append( (int) answer[i] );
       j++;
+    }
+    if( answerString.charAt( answerString.length() - 1) == '0' ) {
+      answerString.deleteCharAt(answerString.length() - 1);
     }
     j--;
     // Situation 1
@@ -139,17 +158,13 @@ public class GinormousInt {
     if( carry ) {
       answerString = answerString.append( 1 );
     }
+    if( !positive && !x.positive ) {
+      answerString = answerString.append( "-" );
+    }
     answerString.reverse();
-    // if( answerString.charAt(0) == '0' ) {
-    //   answerString.deleteCharAt(0);
-    // }
-    // if( answerString.charAt(0) == '+' ) {
-    //   answerString.deleteCharAt(0);
-    // }
-    // if( answerString.charAt(0) == '0' ) {
-    //   answerString.deleteCharAt(0);
-    // }
-
+    if( answerString.charAt(0) == '0') {
+      answerString.deleteCharAt(0);
+    }
     return new GinormousInt( answerString.toString() );
   }
 
@@ -179,11 +194,23 @@ public class GinormousInt {
         q[i] = b[i];
       }
     }
+
     int count =  q.length;
     byte[] answer = new byte[count];
     int j = 0;
+    if( positive && !x.positive ) {
+      x.positive = true;
+      return add(x);
+    } else if( !positive  && x.positive ) {
+      positive = true;
+      return x.subtract(this);
+    } else if( !positive && !x.positive ) {
+      x.positive = true;
+      return add(x);
+    }
     //Subtraction loop
     for( int i = 0; i < count; i++ ) {
+
       answer[i] = (byte)( (int) p[i] - (int) q[i] );
       if( answer[i] > 0 ) {
         borrow = false;
@@ -211,11 +238,13 @@ public class GinormousInt {
       j++;
     }
     count = p.length;
-    answerString = answerString.replace( j, j + 1, new Byte( p[j] ).toString()  );
-    for( int i = j + 1; i < count; i++ ) {
-      answerString = answerString.append( (int) p[i] );
+    if( p.length > q.length ) {
+      answerString = answerString.replace( j, j + 1, new Byte( p[j] ).toString()  );
+      for( int i = j + 1; i < count; i++ ) {
+        answerString = answerString.append( (int) p[i] );
+      }
     }
-    if( b.length < x.b.length ) {
+    if( b.length < x.b.length || 0 > s.compareTo(x.s) ) {
       answerString = answerString.append( "-" );
     }
     answerString.reverse();
@@ -224,22 +253,102 @@ public class GinormousInt {
 
   /* Multiplication */
   public GinormousInt multiply( GinormousInt x ) {
-    // int count = 0;
-    // byte[] answer = new byte[count];
-    // while( count <= ( x.b.length - 1 ) ) {
-    //   answer[i]
+    String r = s;
+    int lastNum = 0;
+    GinormousInt answer = new GinormousInt("0");
+    while( !r.equals("1") ) {
+      lastNum = (int)( r.charAt( ( r.length() - 1) ) ) % 2;
+      if( lastNum == 1 ) {
+        answer = answer.add(x);
+      }
+      r = halve(r);
+      x = x.add(x);
+      System.out.println(x.toString());
+    }
+    answer = answer.add(x);
+    // StringBuffer answerString = new StringBuffer( answer.length - 1 );
+    // for( int i = 0; i < answer.length; i++ ) {
+    //   answerString.append( answer[i] );
     // }
-    return new GinormousInt("0");
+    // answerString.append( "-" );
+    return answer;
   }
 
+  /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to divide a string by 2
+   *  @param  input String to divide in half; note this is integer division so the remainder is not
+   *                considered important
+   *  @return String value that is integer half of the input string
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+   public String halve( String input ) {
+
+     // declare and initialize the variables
+      int          j        = 0;
+      String       result_s = null;
+      StringBuffer result   = null;
+
+      myNumber = input;
+      reversed = new String( new StringBuffer( myNumber ).reverse() );
+      a = new byte[myNumber.length() + 1];   // extra place to handle "carry"
+      c = new byte[myNumber.length()];
+
+     // assign the values to the byte array
+      for( int i = 0; i < a.length - 1; i++ ) {
+         a[i] = (byte)((int)(myNumber.charAt(i)) - 48);         // NOTE: only works for ASCII
+      }
+
+     // do the division
+      for( int i = 0; i < c.length; i++ ) {
+         c[i] = (byte)((int)a[i] / 2);
+         if( 1 == ((int)a[i] - ((int)c[i] * 2)) ) {
+            a[i+1] = (byte)((int)a[i+1] + 10);
+         }
+      }
+
+     // build the result string to pass back
+      result = new StringBuffer();
+      for( int i = 0; i < a.length - 1; i++ ) {
+         if( 0 == c[i] ) {
+            continue;
+         }
+         result = result.append( (int)c[i] );
+      }
+      return new String( result );
+   }
+
   /* Division */
-  public GinormousInt divide( GinormousInt value ) {
-    return new GinormousInt("0");
+  public GinormousInt divide( GinormousInt x ) {
+    int answerCounter = 0;
+    boolean stop = false;
+    GinormousInt remainder = new GinormousInt("0");
+    GinormousInt answer = new GinormousInt(s);
+    while( true ) {
+      answer = answer.subtract(x);
+      if( !answer.positive ) {
+        break;
+      }
+      answerCounter += 1;
+    }
+    remainder = answer.add(x);
+    String answerString = Integer.toString( answerCounter );
+    return new GinormousInt(answerString);
   }
 
   /* Remainder */
-  public GinormousInt remainder( GinormousInt value ) {
-    return new GinormousInt("0");
+  public GinormousInt remainder( GinormousInt x ) {
+    int answerCounter = 0;
+    boolean stop = false;
+    GinormousInt remainder = new GinormousInt("0");
+    GinormousInt answer = new GinormousInt(s);
+    while( true ) {
+      answer = answer.subtract(x);
+      if( !answer.positive ) {
+        break;
+      }
+      answerCounter += 1;
+    }
+    remainder = answer.add(x);
+    return remainder;
   }
 
   /* toString */
