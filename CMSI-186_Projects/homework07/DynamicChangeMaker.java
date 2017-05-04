@@ -25,8 +25,6 @@
     *
     * @param args
     *            the denominations and the amount
-    * @return the best way to make the amount with the denominations or stating that
-    *         it is impossible to make the change or stating a user input error
     */
   public static void main( String[] args ) {
     if( args.length != 2 ) {
