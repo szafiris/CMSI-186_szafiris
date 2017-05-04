@@ -14,8 +14,9 @@
  *   Ver      Date     Modified by:    Reason for change or modification
  *  -----  ----------  ------------    ---------------------------------------------------------------------
  *  1.0.0  2017-04-19  B.J. Johnson    Initial writing and release
- *  1.0.1  2017-04-26  Serena Zafiris  added makeChangeWithDynamicProgramming
- *  1.0.2  2017-05-02  Serena Zafiris  redid and completed makeChangeWithDynamicProgramming
+ *  1.0.1  2017-04-26  Serena Zafiris  added makeChangeWithDynamicProgramming and JavaDocs
+ *  1.1.0  2017-05-02  Serena Zafiris  redid and completed makeChangeWithDynamicProgramming
+ *  1.1.1  2017-05-04  Serena Zafiris  fixed formatting errors
  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
  public class DynamicChangeMaker {
 
@@ -24,7 +25,8 @@
     *
     * @param args
     *            the denominations and the amount
-    * @return the best way to make the amount with the denominations
+    * @return the best way to make the amount with the denominations or stating that
+    *         it is impossible to make the change or stating a user input error
     */
   public static void main( String[] args ) {
     if( args.length != 2 ) {
@@ -37,7 +39,7 @@
       for( int i = 0; i < denominations.length; i++ ) {
         denominations[i] = Integer.parseInt( denominationStrings[i] );
         if( denominations[i] <= 0 ) {
-          System.out.println("Denominations must all be greater than zero.\n");
+          System.out.println( "Denominations must all be greater than zero.\n" );
           printUsage();
           return;
         }
@@ -117,8 +119,9 @@
                 table[i][j] = Tuple.IMPOSSIBLE;
               }
             }
-            // Now we can take one denomination out
-          } else {
+          }
+          // Now we can take one denomination out
+          else {
             // Make new tuple with a one in it
             table[i][j] = new Tuple( rows );
             table[i][j].setElement( i, 1 );
@@ -132,7 +135,7 @@
                   }
                 }
               } else {
-                table[i][j] = table[i][j].add(table[i][j - denominations[i]]);
+                table[i][j] = table[i][j].add( table[i][j - denominations[i]] );
               }
             }
             // Look above for viable solution
@@ -151,9 +154,8 @@
   }
 
   /**
-   * Prints error messgae to help user see what they need to do
-   *
-   * @return error message instructing user how to properly use program
+   * Prints error message to help user see how to input correct values
+   * Shows when user puts in values wrong
    */
   private static void printUsage() {
     System.out.println( "Usage: java DynamicChangemaker <denominations> <amount>" );
